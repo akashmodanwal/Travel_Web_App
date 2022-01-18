@@ -1,5 +1,6 @@
 var express = require("express");
 var app = express();
+var fortune = require('./lib/fortune.js');
 app.set('port',process.env.PORT || 3004);
 
 var handlebars = require("express3-handlebars").create({defaultLayout: 'main'});
@@ -8,21 +9,13 @@ app.set('view engine', 'handlebars');
 
 app.use(express.static(__dirname + '/public'));
 
-var fortunes = [
-    "Conquer your fears or they will conquer you",
-    "Rivers need springs",
-    "Do not fear what you don't know",
-    "You will have a pleasant surprise",
-    "Whenever possible, keep it simple"
-];
 
 app.get('/', (req,res) => {
     res.render('home');
 });
 
 app.get('/about', (req,res) => {
-    var randomForune = fortunes[Math.floor(Math.random()*fortunes.length)];
-    res.render('about', { fortune : randomForune });    
+    res.render('about', { fortune : fortune.getFortune() });    
 });
 
 
